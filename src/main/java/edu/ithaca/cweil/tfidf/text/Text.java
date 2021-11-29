@@ -1,4 +1,8 @@
-package main;
+/**
+ * Interface for Text class
+ * Author: Chris Weil
+ */
+package edu.ithaca.cweil.tfidf.text;
 
 import java.util.Collection;
 
