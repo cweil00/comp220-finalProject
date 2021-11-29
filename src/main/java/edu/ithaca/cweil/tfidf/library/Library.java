@@ -27,7 +27,7 @@ public interface Library<T> {
      * @param newText the new next to add
      * @return true if successful, false if not
      */
-    boolean addText(Text<T> newText);
+    boolean addText(Text newText);
 
     /**
      * Removes a text from the library
@@ -35,7 +35,7 @@ public interface Library<T> {
      * @param title the title of the text to remove
      * @return the text that has been removed
      */
-    Text<T> removeText(String author, String title);
+    Text removeText(String author, String title);
 
     /**
      * Creates a collection of words that are the most important for the given text, uses TFIDF methodology
@@ -43,7 +43,7 @@ public interface Library<T> {
      * @param numWords number of most important words to find
      * @return A collection of the most important words for the text
      */
-    Collection<T> mostRelevantWordsForText(int numWords, Text<T> text);
+    Collection<T> mostRelevantWordsForText(int numWords, Text text);
 
     /**
      * Creates a collection of texts that are the most important for a given word, uses TFIDF methodology

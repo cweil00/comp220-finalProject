@@ -4,9 +4,9 @@
  */
 package edu.ithaca.cweil.tfidf.text;
 
-import java.util.Collection;
+import java.util.Map;
 
-public interface Text<T> {
+public interface Text {
 
     /**
      * Counts the total number of words in the text
@@ -25,6 +25,14 @@ public interface Text<T> {
      * Counts frequency of every word in the text
      * @return A collection of all words along with their relative frequencies
      */
-    Collection<T> allWordsCount();
+    Map<String,Integer> allWordsCount();
+
+    /**
+     * Reads from a text file all of the words of a text
+     * Catches a FileNotFoundException if the file is unable to be found
+     * @param filename filename of the file with the text
+     * @return true if the file is successfully read, false if otherwise
+     */
+    boolean inputText(String filename);
 
 }
