@@ -6,9 +6,12 @@ package edu.ithaca.cweil.tfidf.library;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.net.URL;
+
 import org.junit.jupiter.api.Test;
 
 import edu.ithaca.cweil.tfidf.text.Text;
+import edu.ithaca.cweil.tfidf.text.TextTest;
 
 public class LibraryTest{
 
@@ -19,7 +22,8 @@ public class LibraryTest{
         Library<String> libraryToTest = null;
 
         Text testText = null;
-        testText.inputText("TestText.txt");
+        URL path = TextTest.class.getResource("TestText.txt");
+        testText.inputText(path.getFile());
         libraryToTest.addText(testText);
         assertEquals(107, libraryToTest.wordCount());
     }

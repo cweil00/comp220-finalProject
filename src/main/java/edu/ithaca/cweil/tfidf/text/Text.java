@@ -22,10 +22,10 @@ public interface Text {
     int singleWordCount(String word);
 
     /**
-     * Counts frequency of every word in the text
+     * Counts frequency of every word in the text, uses the tfidf methodology
      * @return A collection of all words along with their relative frequencies
      */
-    Map<String,Integer> allWordsCount();
+    Map<String, Double> allWordsFrequency();
 
     /**
      * Reads from a text file all of the words of a text
