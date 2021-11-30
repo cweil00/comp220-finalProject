@@ -22,7 +22,7 @@ public interface Text {
     int singleWordCount(String word);
 
     /**
-     * Counts frequency of every word in the text, uses the tfidf methodology
+     * Counts frequency of every word in the text, uses the tfidf methodology, and updates the most relevant words array
      * @return A collection of all words along with their relative frequencies
      */
     Map<String, Double> allWordsFrequency();
@@ -34,5 +34,23 @@ public interface Text {
      * @return true if the file is successfully read, false if otherwise
      */
     boolean inputText(String filename);
+
+    /**
+     * Getter method
+     * @return String author, the author of the text
+     */
+    String getAuthor();
+
+    /**
+     * Getter method
+     * @return String title, the title of the text
+     */
+    String getTitle();
+
+    /**
+     * Getter method
+     * @return array of Strings, containing the most important words (whose number is specified by its length)
+     */
+    String[] getRelevantWords();
 
 }

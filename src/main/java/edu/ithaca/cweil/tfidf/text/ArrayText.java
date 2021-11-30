@@ -5,6 +5,7 @@
 package edu.ithaca.cweil.tfidf.text;
 
 //import the needed packages
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
@@ -17,16 +18,28 @@ public class ArrayText implements Text {
     private String author;
     private String title;
     private String[] allWords;
+    private String[] relevantWords;
 
     /**
-     * Constructor method
+     * Constructor method - overloaded
      * @param author String author of text
      * @param title String title of text
      */
     public ArrayText(String author, String title){
+        this(author, title, 10);
+    }
+
+    /**
+     * Constructor method - overloaded
+     * @param author String author of text
+     * @param title String title of text
+     * @param numRelevantWords int, number of most relevant words to save (default is 10)
+     */
+    public ArrayText(String author, String title, int numRelevantWords){
         this.author = author;
         this.title = title;
         allWords = null;
+        relevantWords = new String[numRelevantWords];
     }
 
     @Override
@@ -56,7 +69,7 @@ public class ArrayText implements Text {
 
     @Override
     /**
-     * Counts frequency of every word in the text, uses the tftdf methodology
+     * Counts frequency of every word in the text, uses the tftdf methodology, and updates the most relevant words array
      * @return A map of all words along with their relative frequencies
      */
     public Map<String, Double> allWordsFrequency() {
@@ -66,6 +79,19 @@ public class ArrayText implements Text {
                 double count = (double) this.singleWordCount(allWords[i]); //cast to double to ensure that do not do integer division
                 wordMap.put(allWords[i], Math.log(this.countWords() / count)); //add the word to the map with the tftdf value
             }
+        }
+        //reverse the map
+        Map<Double, String> reverseWordMap = new HashMap<>();
+        for(Map.Entry<String,Double> entry : wordMap.entrySet()){
+            double i = 0.0;
+            while(reverseWordMap.putIfAbsent(entry.getValue() + i, entry.getKey()) != null){ //sometimes have same value, so increase some by very small amount
+                i = i + 0.0001; //should be ok for adding to most important array because either all will be added because they are very similar or if at end would have to pick which ones to add and this will do that for me
+            }
+        }
+        Double[] reverseMapKeys = reverseWordMap.keySet().toArray(new Double[0]); //get the keys of the reversed map
+        Arrays.sort(reverseMapKeys); //sort the keys so have correct ordering of tfidf
+        for (int i = 0; i < relevantWords.length; i++){
+            relevantWords[i] = reverseWordMap.get(reverseMapKeys[reverseMapKeys.length - 1 - i]); //update relevant words
         }
         return wordMap;
     }
@@ -97,6 +123,7 @@ public class ArrayText implements Text {
         }
     }
 
+    @Override
     /**
      * Getter method
      * @return String author, the author of the text
@@ -105,12 +132,22 @@ public class ArrayText implements Text {
         return author;
     }
 
+    @Override
     /**
      * Getter method
      * @return String title, the title of the text
      */
     public String getTitle(){
         return title;
+    }
+
+    @Override
+    /**
+     * Getter method
+     * @return array of Strings, containing the most important words (whose number is specified by its length)
+     */
+    public String[] getRelevantWords(){
+        return relevantWords;
     }
     
 }
